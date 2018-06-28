@@ -1,0 +1,20 @@
+发布到Linux需要修改的文件：
+
+log4j.properties：
+
+log4j.rootLogger = INFO, Console,File
+
+#Console
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%5p [%t] - %m%n
+
+#File
+log4j.appender.File = org.apache.log4j.DailyRollingFileAppender
+log4j.appender.File.Threshold=WARN
+log4j.appender.File.File = /usr/local/green_log/WARN.log
+log4j.appender.File.layout = org.apache.log4j.PatternLayout     
+log4j.appender.File.layout.ConversionPattern =%5p [%t] - %m%n  
+
+上传图片地址
+String avatar_path = "//usr//local//upload//pic//";

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cavie.green.mapper.UserMapper">
+	<!-- 根据用户id查询用户 -->
+	<select id="findUserById" parameterType="java.lang.Integer"
+		resultType="User">
+		SELECT * FROM user
+		<where>user_id = #{user_id}</where>
+	</select>
+	<!-- 根据用户名查询用户 -->
+	<select id="findUser_idByUserName" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT user_id FROM user
+		<where>username = #{username }</where>
+	</select>
+	<!-- 根据用户名查询用户id -->
+	<select id="findUserByUserName" parameterType="java.lang.String"
+		resultType="User">
+		SELECT * FROM user
+		<where>username = #{username }</where>
+	</select>
+	<!-- 根据用户id查询用户积分 -->
+	<select id="findPointByUser_id" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT point FROM user
+		<where>
+			user_id = #{user_id}
+		</where>
+	</select>
+	<!-- 查询订单工作人员总数 -->
+	<select id="countOrderWorks" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM user NATURAL JOIN user_authorities
+		<where>
+			authorities_id = 3
+		</where>
+	</select>
+	<!-- 查询商品工作人员总数 -->
+	<select id="countGoodsWorks" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM user NATURAL JOIN user_authorities
+		<where>
+			authorities_id = 4
+		</where>
+	</select>
+	<!-- 查询order工作人员用户名 -->
+	<select id="findOrderWorks" parameterType="java.util.HashMap"
+		resultType="java.lang.String">
+		SELECT username FROM user NATURAL JOIN user_authorities
+		<where>
+			authorities_id = 3 LIMIT #{startIndex },#{pageSize }
+		</where>
+	</select>
+	<!-- 查询goods工作人员用户名 -->
+	<select id="findGoodsWorks" parameterType="java.util.HashMap"
+		resultType="java.lang.String">
+		SELECT username FROM user NATURAL JOIN user_authorities
+		<where>
+			authorities_id = 4 LIMIT #{startIndex },#{pageSize }
+		</where>
+	</select>
+	<!-- 注册用户 -->
+	<insert id="insertUser" parameterType="User">
+		<!-- 返回主键,适用于mysql自增主键 -->
+		<selectKey keyProperty="user_id" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO user
+		(username,realname,password,phone,school,floor,dormitory)
+		VALUES
+		(#{username },#{realname },#{password },#{phone
+		},#{school
+		},#{floor
+		},#{dormitory })
+	</insert>
+	<!-- 注册工作人员用户 -->
+	<insert id="insertWork" parameterType="createWorkForm">
+		<!-- 返回主键,适用于mysql自增主键 -->
+		<selectKey keyProperty="user_id" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO user
+		(username,password,avatar)
+		VALUES
+		(#{username
+		},#{password },#{avatar })
+	</insert>
+	<!-- 更新用户信息 -->
+	<update id="updateUserInfo" parameterType="editInfoForm">
+		UPDATE user SET username = #{username },realname = #{realname },phone
+		= #{phone },school = #{school },floor = #{floor },dormitory =
+		#{dormitory },avatar = #{avatar }
+		<where>
+			user_id = #{user_id }
+		</where>
+	</update>
+	<!-- 更新用户积分 -->
+	<update id="updateUserPoint" parameterType="user">
+		UPDATE user SET point = point + #{point }
+		<where>
+			user_id = #{user_id }
+		</where>
+	</update>
+	<!-- 删除工作人员用户 -->
+	<delete id="deleteWorks" parameterType="java.util.Arrays">
+		DELETE FROM user
+		<where>
+			username in
+			<foreach collection="array" item="workName" open="(" close=")"
+				separator=",">
+				#{workName}
+			</foreach>
+		</where>
+	</delete>
+</mapper>

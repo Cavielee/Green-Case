@@ -1,0 +1,54 @@
+.bg {
+	background-color: rgba(235, 239, 238, 1.00);
+}
+
+#topbar {
+	background-color: rgba(130, 199, 144, 1.00);
+}
+
+.title {
+	font-size: 22px;
+	color: white;
+	text-align: center;
+}
+
+.fa-angle-left {
+	margin-top: 16px;
+	color: white;
+	font-size: 29px;
+}
+
+/*foot*/
+.foot {
+	width: 100%;
+	height: 110px;
+	font-family: '微软雅黑';
+	font-size: 13px;
+	line-height: 40px;
+	text-align: center;
+	color: rgba(162, 166, 169, 1.00);
+	background-color: rgba(235, 239, 238, 1.00);
+}
+video {
+	width: 100%;
+	height: 300px;
+}
+/*bar*/
+#bar {
+	background-color: white;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+}
+
+.bar-item {
+	display: block;
+	margin: 6px auto;
+}
+
+#bar h6 {
+	font-family: '微软雅黑';
+	color: rgba(162, 166, 169, 1.00);
+	text-align: center;
+	margin-top: 3px;
+}

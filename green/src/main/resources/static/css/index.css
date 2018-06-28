@@ -1,0 +1,159 @@
+.bg {
+	background-color: rgba(235, 239, 238, 1.00);
+}
+/*search*/
+#search {
+	margin: 0;
+	height: 38px;
+	background-color: rgba(130, 199, 144, 1.00);
+}
+
+.search {
+	margin-top: 5px;
+	width: 100%;
+	height: 28px;
+	border-radius: 13px;
+	border: none;
+	font-family: '微软雅黑';
+	font-size: 15px;
+	color: darkgray;
+	background-color: white;
+}
+
+.fa-search {
+	letter-spacing: 7px;
+	color: rgba(130, 199, 144, 1.00);
+}
+/*nav*/
+#nav {
+	background-color: white;
+}
+
+#nav h6 {
+	font-family: '微软雅黑';
+	color: rgba(162, 166, 169, 1.00);
+	text-align: center;
+	margin-top: 3px;
+}
+/*info*/
+.info {
+	background-color: white;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.line {
+	width: 4px;
+	height: 13px;
+	background-color: rgba(130, 199, 144, 1.00);
+	margin: 10px 5px 0px 8px;
+	display: inline-block;
+}
+
+.title h6 {
+	display: inline-block;
+	font-family: '微软雅黑';
+	font-size: 13px;
+}
+
+.item {
+	border: 1px solid rgba(235, 239, 238, 1.00);
+	height: 100px;
+	padding: 0px;
+}
+
+.item .img {
+	float:left;
+	width : 45%;
+	margin-left: 3%;
+}
+
+.item .text {
+	float:left;
+	width: 52%;
+}
+
+.item img {
+	margin-top: 8px;
+	width: 100%;
+	height: 80px;
+}
+
+.item h3, .item h4, .item h5 {
+	font-family: '微软雅黑';
+	display: block;
+}
+
+.item h4 {
+	font-size: 17px;
+	text-align: center; margin-top : 20px;
+	margin-left: 10px;
+	margin-top: 20px;
+}
+
+.item h5 {
+	font-size: 12px;
+	color: rgba(162, 166, 169, 1.00);
+	margin-top: 13px;
+}
+
+.item h3 {
+	font-size: 17px;
+	color: rgba(130, 199, 144, 1.00);
+	text-align: center;
+	margin-top: 14px;
+}
+
+.box {
+	margin-top: 8px;
+}
+
+.video img {
+	width: 100%;
+	height: 90px;
+	margin-top: 3px;
+}
+
+.video h4 {
+	font-family: '微软雅黑';
+	font-size: 14px;
+	text-align: center;
+}
+
+.video h5 {
+	font-family: '微软雅黑';
+	font-size: 13px;
+	text-align: right;
+	color: rgba(162, 166, 169, 1.00);
+}
+
+/*foot*/
+.foot {
+	width: 100%;
+	height: 110px;
+	font-family: '微软雅黑';
+	font-size: 13px;
+	line-height: 40px;
+	text-align: center;
+	color: rgba(162, 166, 169, 1.00);
+	background-color: rgba(235, 239, 238, 1.00);
+}
+/*bar*/
+#bar {
+	background-color: white;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+}
+
+.bar-item {
+	display: block;
+	margin: 6px auto;
+}
+
+#bar h6 {
+	font-family: '微软雅黑';
+	color: rgba(162, 166, 169, 1.00);
+	text-align: center;
+	margin-top: 3px;
+}

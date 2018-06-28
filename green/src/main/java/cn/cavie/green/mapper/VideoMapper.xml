@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cavie.green.mapper.VideoMapper">
+	<!-- 查询所有视频信息 -->
+	<select id="findVideoListWithPage" parameterType="java.util.HashMap"
+		resultType="Video">
+		SELECT * FROM video LIMIT #{startIndex },#{pageSize }
+	</select>
+
+	<!-- 根据id查询视频信息 -->
+	<select id="findVideoByVideo_id" parameterType="java.lang.Integer"
+		resultType="Video">
+		SELECT * FROM video
+		<where>video_id = #{video_id }</where>
+	</select>
+
+	<!-- 随机查询N条记录 -->
+	<select id="findVideoByRand" parameterType="java.lang.Integer"
+		resultType="Video">
+		SELECT * FROM video
+		ORDER BY RAND() LIMIT #{num }
+	</select>
+	<!-- 查询视频总数 -->
+	<select id="countVideo" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM video
+	</select>
+</mapper>

@@ -1,0 +1,75 @@
+.bg {
+	background-color: white;
+}
+
+#topbar {
+	background-color: rgba(130, 199, 144, 1.00);
+}
+
+.title {
+	font-size: 22px;
+	color: white;
+	text-align: center;
+}
+
+.fa-angle-left {
+	margin-top: 16px;
+	color: white;
+	font-size: 29px;
+}
+
+/* 用户信息 */
+.col-xs-12 {
+	padding: 0px;
+}
+.tx {
+	height: 130px;
+	background-color: rgba(130,199,144,1.00);
+	margin-bottom: 25px;
+}
+.tx img {
+	display: block;
+	position: relative;
+	width: 90px;
+	height: 90px;
+	border-radius: 50px;
+	margin: 0 auto;
+	top: 65%;
+	z-index: 999;
+}
+
+ul {
+	background-color: white;
+	margin-top: 10px;
+}
+li {
+	border-bottom: 1px solid rgba(235,239,238,1.00);
+	height: 60px;
+	font-family: '微软雅黑';
+	font-size: 18px;
+	line-height: 60px;
+}
+p {
+	display: inline-block;
+	position: absolute;
+	left: 23%;
+}
+.fa-angle-right {
+	float: right;
+	font-size: 23px;
+	margin: 18px 15px 0 0;
+}
+.foucs:hover {
+	color: rgba(130, 199, 144, 1.00);
+}
+.editInfo {
+	text-align: center;
+	background-color: rgba(130, 199, 144, 1.00);
+	border-radius: 6px;
+}
+.editInfo a {
+	color:white;
+}
+.editInfo:hover {
+	background-color: rgba(115, 175, 125, 1.00);
+}

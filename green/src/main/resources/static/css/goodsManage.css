@@ -1,0 +1,223 @@
+.bg {
+	background-color: rgba(235, 239, 238, 1.00);
+}
+
+#topbar {
+	background-color: rgba(130, 199, 144, 1.00);
+}
+
+.title {
+	font-size: 22px;
+	color: white;
+	text-align: center;
+}
+
+.fa-angle-left {
+	margin-top: 16px;
+	color: white;
+	font-size: 29px;
+}
+
+.worksActive {
+	border-bottom: 1px solid rgba(130, 199, 144, 1.00);
+}
+
+.oderWorks {
+	border-right: 1px solid rgba(235, 239, 238, 1.00);
+}
+
+.oderWorks, .goodsWorks {
+	text-align: center;
+	background-color: white;
+	height: 40px;
+	margin-bottom: 10px;
+	font-family: '微软雅黑';
+	font-size: 16px;
+	color: rgba(130, 199, 144, 1.00);
+	line-height: 40px;
+}
+
+/*goods*/
+.goods {
+	background-color: white;
+	margin-bottom: 15px;
+}
+
+.line {
+	width: 4px;
+	height: 13px;
+	background-color: rgba(130, 199, 144, 1.00);
+	margin: 10px 5px 0px 8px;
+	display: inline-block;
+}
+
+.goods h6 {
+	display: inline-block;
+	font-family: '微软雅黑';
+	font-size: 16px;
+	margin-bottom: 15px;
+}
+
+.mybotton {
+	float: right;
+	margin-top: 10px;
+}
+
+.mybotton button {
+	margin-right: 5px;
+	height: 30px;
+	width: 50px;
+	text-align: center;
+	background-color: rgba(130, 199, 144, 1.00);
+	border: none;
+	border-radius: 15px;
+	font-family: '微软雅黑';
+	font-size: 14px;
+	color: white;
+}
+
+/*Goods*/
+.item {
+	background-color: white;
+	border: 1px solid rgba(235, 239, 238, 1.00);
+	height: 100px;
+	padding: 0px;
+	margin-bottom: 3px;
+}
+
+.checkbox {
+	width: 10%;
+	height: 100px;
+	display: inline-block;
+	margin: 0px;
+}
+
+input[type="checkbox"] {
+	height: 15px;
+	width: 15px;
+	margin: 0 auto;
+	margin-top: 40px;
+	left: 80%;
+}
+
+.goodsImg {
+	width: 23%;
+	height: 100%;
+	display: inline-block;
+}
+
+.goodsImg img {
+	display: block;
+	margin: 0 auto;
+	width: 90%;
+	height: 90%;
+	margin-top: 5px;
+}
+
+.goodsInfo {
+	width: 55%;
+	height: 100%;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.goodsInfo h3, .goodsInfo h4, .goodsInfo h5 {
+	font-family: '微软雅黑';
+	display: block;
+	margin-left: 10px;
+	overflow: hidden;
+}
+
+.goodsInfo h3 {
+	font-size: 16px;
+	margin-top: 13px;
+	max-height: 17px;
+}
+
+.goodsInfo h4 {
+	font-size: 13px;
+	color: rgba(162, 166, 169, 1.00);
+	margin-top: 9px;
+	max-height: 28px;
+}
+
+.goodsInfo h5 {
+	font-size: 11px;
+	color: #DA674A;
+	margin-top: 9px;
+	max-height: 12px;
+}
+
+/*分页*/
+#page {
+	text-align: center;
+}
+
+.page {
+	margin-top: 5px;
+	font-family: '微软雅黑';
+	display: inline-block;
+	width: 35px;
+	height: 27px;
+	border: 1px solid rgba(171, 171, 171, 1.00);
+	text-align: center;
+	border-radius: 8px;
+	line-height: 25px;
+}
+
+.page:hover {
+	background-color: rgba(130, 199, 144, 1.00);
+	color: white;
+}
+
+.active {
+	background-color: rgba(130, 199, 144, 1.00);
+	color: white;
+}
+
+.next_page, .previous_page, .first_page, .last_page {
+	display: inline-block;
+	width: 50px;
+	height: 27px;
+	border: 1px solid #b1b1b1;
+	text-align: center;
+	font-family: '微软雅黑';
+	border-radius: 8px;
+	line-height: 25px;
+}
+
+.next_page:hover, .previous_page:hover, .first_page:hover, .last_page:hover
+	{
+	background-color: rgba(130, 199, 144, 1.00);
+	color: white;
+}
+/*foot*/
+.foot {
+	width: 100%;
+	height: 110px;
+	font-family: '微软雅黑';
+	font-size: 13px;
+	line-height: 40px;
+	text-align: center;
+	color: rgba(162, 166, 169, 1.00);
+	background-color: rgba(235, 239, 238, 1.00);
+}
+/*bar*/
+#bar {
+	background-color: white;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+}
+
+.bar-item {
+	display: block;
+	margin: 6px auto;
+}
+
+#bar h6 {
+	font-family: '微软雅黑';
+	color: rgba(162, 166, 169, 1.00);
+	text-align: center;
+	margin-top: 3px;
+}

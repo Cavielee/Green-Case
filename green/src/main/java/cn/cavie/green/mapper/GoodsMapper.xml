@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cavie.green.mapper.GoodsMapper">
+	<select id="findGoodsWithPage" parameterType="java.util.HashMap"
+		resultType="Goods">
+		SELECT * FROM goods LIMIT #{startIndex },#{pageSize }
+	</select>
+
+	<select id="findGoodsByRand" parameterType="java.lang.Integer"
+		resultType="Goods">
+		SELECT * FROM goods
+		ORDER BY RAND() LIMIT #{num }
+	</select>
+
+	<!-- 商品名查重 -->
+	<select id="duplicateCheckingGoods" parameterType="java.lang.String"
+		resultType="Goods">
+		SELECT * FROM goods
+		<where>
+			name = #{name }
+		</where>
+	</select>
+	<!-- 查询商品数量 -->
+	<select id="countGoods" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM goods
+	</select>
+
+	<!-- 通过id查询商品详细信息 -->
+	<select id="findGoodsByGoods_id" parameterType="java.lang.Integer" resultType="Goods">
+		SELECT *FROM goods
+		<where>
+			goods_id = #{goods_id }
+		</where>
+	</select>
+	<!-- 添加商品 -->
+	<insert id="insertGoods" parameterType="CreateGoodsForm">
+		INSERT INTO goods
+		(name,intro,price,imgUrl)
+		VALUES
+		(#{name },#{intro },#{price },#{imgUrl
+		})
+	</insert>
+	<!-- 删除商品 -->
+	<delete id="deleteGoods" parameterType="java.util.Arrays">
+		DELETE FROM goods
+		<where>
+			name in
+			<foreach collection="array" item="goodsName" open="(" close=")"
+				separator=",">
+				#{goodsName}
+			</foreach>
+		</where>
+	</delete>
+</mapper>

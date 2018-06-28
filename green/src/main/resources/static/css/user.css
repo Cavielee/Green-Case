@@ -1,0 +1,105 @@
+.bg {
+	background-color: rgba(235, 239, 238, 1.00);
+}
+
+.tx {
+	width: 30%;
+	height: 130px;
+	background-color: rgba(130, 199, 144, 1.00);
+	float: left;
+}
+
+.tx img {
+	width: 75px;
+	height: 75px;
+	border-radius: 40px;
+	margin: 20px 0 0 15px;
+}
+
+.info {
+	width: 70%;
+	height: 130px;
+	background-color: rgba(130, 199, 144, 1.00);
+	float: left;
+}
+
+.info h4 {
+	font-family: '微软雅黑';
+	font-size: 21px;
+	margin: 33px 0 0 10px;
+	color: white;
+}
+
+.info h5 {
+	font-family: '微软雅黑';
+	font-size: 16px;
+	margin: 10px 0 0 10px;
+	color: rgba(191, 235, 211, 1.00);
+}
+
+.info h3 {
+	font-family: '微软雅黑';
+	font-size: 21px;
+	margin: 40px 0 0 10px;
+	color: white;
+}
+
+.clear {
+	clear: both;
+}
+
+ul {
+	background-color: white;
+	margin-top: 10px;
+}
+
+li {
+	margin-left:10px;
+	border-bottom: 1px solid rgba(235, 239, 238, 1.00);
+	height: 60px;
+	font-family: '微软雅黑';
+	font-size: 18px;
+	line-height: 60px;
+}
+
+.fa-angle-right {
+	float: right;
+	font-size: 23px;
+	margin: 18px 15px 0 0;
+}
+
+.ahover a:hover {
+	color: rgba(130, 199, 144, 1.00);
+}
+
+.logoff, .login li {
+	text-align: center;
+}
+/*foot*/
+.foot {
+	width: 100%;
+	height: 110px;
+	font-family: '微软雅黑';
+	font-size: 13px;
+	line-height: 40px;
+	text-align: center;
+	color: rgba(162, 166, 169, 1.00);
+	background-color: rgba(235, 239, 238, 1.00);
+}
+/*bar*/
+#bar {
+	background-color: white;
+	position:fixed;
+	width: 100%;
+	bottom:0;
+}
+.bar-item {
+	display: block;
+	margin: 6px auto;
+}
+#bar h6 {
+	font-family: '微软雅黑';
+	color:rgba(162,166,169,1.00);
+	text-align: center;
+	margin-top: 3px;
+}

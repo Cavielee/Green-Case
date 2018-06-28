@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cavie.green.mapper.PointGoodsMapper">
+	<!-- 随机查询N条积分商品 -->
+	<select id="findPointGoodsByTypeRand" resultType="PointGoods">
+		SELECT * FROM
+		point_goods
+		<where>type = #{type,jdbcType=VARCHAR }</where>
+		ORDER BY RAND()
+		LIMIT #{num,jdbcType=INTEGER }
+	</select>
+
+	<!-- 查询某类型带分页的积分商品 -->
+	<select id="findPointGoodsWithTypePage" resultType="PointGoods">
+		SELECT * FROM
+		point_goods
+		<where>type = #{type,jdbcType=VARCHAR}</where>
+		LIMIT #{startIndex,jdbcType=INTEGER },#{pageSize,jdbcType=INTEGER }
+	</select>
+
+	<!-- 查询带分页的积分商品 -->
+	<select id="findPointGoodsPage" resultType="PointGoods">
+		SELECT * FROM
+		point_goods
+		LIMIT #{startIndex,jdbcType=INTEGER
+		},#{pageSize,jdbcType=INTEGER }
+	</select>
+
+	<!-- 查询某类积分商品总数 -->
+	<select id="countPointGoodsWithType" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM point_goods
+		<where>
+			type = #{type}
+		</where>
+	</select>
+	<!-- 查询积分商品总数 -->
+	<select id="countPointGoods" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM
+		point_goods
+	</select>
+
+	<!-- 商品名查重 -->
+	<select id="duplicateCheckingPointGoods" parameterType="java.lang.String"
+		resultType="PointGoods">
+		SELECT * FROM point_goods
+		<where>
+			name = #{name }
+		</where>
+	</select>
+	<!-- 添加商品 -->
+	<insert id="insertPointGoods" parameterType="CreatePointGoodsForm">
+		INSERT INTO
+		point_goods
+		(name,intro,price,imgUrl,type)
+		VALUES
+		(#{name
+		},#{intro},#{price },#{imgUrl},#{type})
+	</insert>
+	<!-- 删除积分商品 -->
+	<delete id="deletePointGoods" parameterType="java.util.Arrays">
+		DELETE FROM point_goods
+		<where>
+			name in
+			<foreach collection="array" item="goodsName" open="(" close=")"
+				separator=",">
+				#{goodsName}
+			</foreach>
+		</where>
+	</delete>
+</mapper>

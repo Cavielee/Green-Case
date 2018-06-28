@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	margin: 0;
+}
+* {
+	margin: 0px;
+	padding: 0px;            /*  去掉所有标签的marign和padding的值  */
+}
+a {
+	color: black;
+}
+a:hover {
+	text-decoration: none;
+	cursor: pointer;
+	color: black;
+}
+input:invalid {
+ border-color: red;
+}
+input, input:valid {
+ border-color: #ccc;
+}
+ul {
+	list-style: none;           /*  去掉ul标签默认的点样式  */
+}
+input:-webkit-autofill {
+ -webkit-box-shadow: 0 0 0px 1000px white inset !important;/*关于解决输入框背景颜色*/
+}

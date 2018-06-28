@@ -1,0 +1,79 @@
+body {
+	background-image:url(../img/login3.jpg); 
+	background-repeat:no-repeat;
+	background-size:100% 100%;
+
+}
+.bg {
+	background-color:rgba(0,0,0,0.40);
+	background-size:100% 100%;
+}
+
+.logo{
+	width: 78px;
+	height:78px;
+	margin:0 auto;
+	background-image: url(../img/logo.jpg);
+	background-repeat:no-repeat;
+	background-size:100% 100%;
+	margin-top: 50px;
+}
+
+h3 {
+	font-family: '微软雅黑';
+	font-size: 23px;
+	text-align: center;
+	color:antiquewhite;
+}
+h5{
+	font-family: '微软雅黑';
+	font-size: 13px;
+	text-align: center;
+	color:yellow;
+	margin-top: 5px;
+}
+
+.regedit {
+	margin-top: 50px;
+	width: 100%;
+	height:48px;
+	border-radius: 25px;
+	border:none;
+	font-family: '微软雅黑';
+	font-size: 18px;
+	color:white;
+	background-color:rgba(80,198,205,1.00);
+}
+.login {
+	margin-top: 16px;
+	width: 100%;
+	height:48px;
+	border-radius: 25px;
+	border:none;
+	font-family: '微软雅黑';
+	font-size: 18px;
+	color: white;
+	background-color:rgba(231,77,139,1.00);
+	
+}
+
+.qq {
+	margin-top: 10px;
+	float:right;
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	background-color: rgba(177,177,177,0.5);
+}
+.wechat {
+	margin-top: 10px;
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	background-color: rgba(177,177,177,0.4);
+}
+.fa-qq,.fa-wechat {
+	font-size: 25px;
+	margin: 7px 7px;
+	color:rgba(170,178,196,1.00)
+}
