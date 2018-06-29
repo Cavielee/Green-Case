@@ -5,6 +5,9 @@ $.validator.setDefaults({
 		//		var formData = new FormData($("#createWorkForm")[0]);
 		// 防止表单重复提交
 		if (isCommitted == false) {
+			//提交表单后，将表单是否已经提交标识设置为true
+			isCommitted = true;
+
 			var data = JSON.stringify($('form').serializeJSON());
 			$.ajax({
 				type : 'post',
@@ -20,8 +23,7 @@ $.validator.setDefaults({
 					}
 				}
 			});
-			//提交表单后，将表单是否已经提交标识设置为true
-			isCommitted = true;
+
 		}
 
 	}

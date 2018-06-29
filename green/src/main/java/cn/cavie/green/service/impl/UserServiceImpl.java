@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -166,13 +168,13 @@ public class UserServiceImpl implements UserService {
 
 		// 创建分页
 		Page<String> page = new Page<String>(pageNum, pageSize, totalRecord);
-		
+
 		HashMap<String, Integer> pageMap = new HashMap<String, Integer>();
 		pageMap.put("pageSize", pageSize);
 		pageMap.put("startIndex", page.getStartIndex());
-		
+
 		List<String> list = userMapper.findOrderWorks(pageMap);
-		
+
 		page.setList(list);
 
 		return page;
@@ -181,20 +183,28 @@ public class UserServiceImpl implements UserService {
 	// 获得带分页的商品工作人员列表
 	@Override
 	public Page<String> findGoodsWorks(int pageNum, int pageSize) throws Exception {
-		
+
 		// 查询用户订单总数
 		int totalRecord = userMapper.countGoodsWorks();
 
 		// 创建分页
 		Page<String> page = new Page<String>(pageNum, pageSize, totalRecord);
-		
+
 		HashMap<String, Integer> pageMap = new HashMap<String, Integer>();
 		pageMap.put("pageSize", pageSize);
 		pageMap.put("startIndex", page.getStartIndex());
-		
+
 		List<String> list = userMapper.findGoodsWorks(pageMap);
 		page.setList(list);
-		
+
 		return page;
+	}
+
+	// 获取认证用户的id
+	@Override
+	public int findAuthenticatedUserId() throws Exception {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		return this.findUser_idByUserName(username);
 	}
 }

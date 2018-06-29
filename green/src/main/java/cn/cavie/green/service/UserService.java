@@ -18,6 +18,12 @@ public interface UserService {
 	// 根据用户名查询用户id
 	public int findUser_idByUserName(String username) throws Exception;
 
+	// 根据用户id查询用户积分
+	public int findPointByUser_id(int user_id) throws Exception;
+	
+	// 获取认证用户的id
+	public int findAuthenticatedUserId() throws Exception;
+
 	// 登录校验
 	public LoginResultMessage checkLogin(LoginUserForm loginUserForm) throws Exception;
 
@@ -32,9 +38,6 @@ public interface UserService {
 
 	// 通过用户名获取用户信息
 	public UserInfo getUserInfoByUserName(String username) throws Exception;
-
-	// 根据用户id查询用户积分
-	public int findPointByUser_id(int user_id) throws Exception;
 
 	// 更新用户积分
 	public int updateUserPoint(int user_id, int point) throws Exception;

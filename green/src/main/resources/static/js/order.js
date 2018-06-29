@@ -4,6 +4,9 @@ $.validator.setDefaults({
 	submitHandler : function(form) {
 		// 防止表单重复提交
 		if (isCommitted == false) {
+			//提交表单后，将表单是否已经提交标识设置为true
+			isCommitted = true;
+			
 			// 下单时间
 			var SRV_TIME_FROM = new Date();
 			$("input[name='SRV_TIME_FROM']").val(Date.parse(SRV_TIME_FROM));
@@ -98,8 +101,6 @@ $.validator.setDefaults({
 
 				}
 			});
-			//提交表单后，将表单是否已经提交标识设置为true
-			isCommitted = true;
 		}
 
 	}

@@ -8,6 +8,9 @@ $.validator.setDefaults({
 		//		var formData = new FormData($("#editForm")[0]);
 		// 防止表单重复提交
 		if (isCommitted == false) {
+			//提交表单后，将表单是否已经提交标识设置为true
+			isCommitted = true;
+
 			if ($("input[name='avatar']").val() == "") {
 				var path = $("img[alt='avatar']").attr('src');
 				path = path.match(/(\S*)/)[1];
@@ -33,8 +36,6 @@ $.validator.setDefaults({
 					}
 				}
 			});
-			//提交表单后，将表单是否已经提交标识设置为true
-			isCommitted = true;
 		}
 
 

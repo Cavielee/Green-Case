@@ -54,7 +54,7 @@
 								<div class="goodsInfo">
 									<h3>${Goods.name }</h3>
 									<h4>${Goods.intro }</h4>
-									<h5>¥${Goods.price }</h5>
+									<h5>${Goods.price }积分</h5>
 								</div>
 							</div>
 						</c:forEach>

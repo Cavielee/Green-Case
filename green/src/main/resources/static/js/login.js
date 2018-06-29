@@ -4,9 +4,10 @@ $.validator.setDefaults({
 	submitHandler : function(form) {
 		// 防止表单重复提交
 		if (isCommitted == false) {
-			form.submit();
 			//提交表单后，将表单是否已经提交标识设置为true
 			isCommitted = true;
+			
+			form.submit();
 		}
 
 	}

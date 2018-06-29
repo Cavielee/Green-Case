@@ -52,10 +52,8 @@ public class OrderController {
 			return result;
 		}
 
-		// 获取用户id
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		savaOrderForm.setUser_id(userService.findUser_idByUserName(username));
+		// 获取认证用户的id
+		savaOrderForm.setUser_id(userService.findAuthenticatedUserId());
 		
 		// 订单查重
 		if (orderService.existeUserOrder(savaOrderForm) != null) {
@@ -82,6 +80,7 @@ public class OrderController {
 		// 获取刚下单的信息
 		OrderSuccessResult order = orderService.findOrderById(order_id);
 		request.setAttribute("order", order);
+		
 		return "successOrder";
 	}
 
