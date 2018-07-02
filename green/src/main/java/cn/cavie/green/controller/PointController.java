@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -37,8 +38,10 @@ public class PointController {
 	@Autowired
 	private UserService userService;
 
+	@PreAuthorize("permitAll()")
 	@RequestMapping("/point")
 	public String toPoint(HttpServletRequest request) throws Exception {
+		// 如果已登录则查询用户积分(除了匿名用户除外)
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication.getPrincipal().equals("anonymousUser") == false) {
 			String username = authentication.getName();
@@ -47,6 +50,7 @@ public class PointController {
 						userService.findPointByUser_id(userService.findUser_idByUserName(username)));
 			}
 		}
+
 		// 查询积分商品数量
 		int point_goods_num = 2;
 		// 随机查询每种类型N个积分商品
@@ -55,7 +59,24 @@ public class PointController {
 		return "point";
 	}
 
+	// 查看某类的积分商品列表
+	@PreAuthorize("permitAll()")
+	@RequestMapping("/pointGoodsList/{type}")
+	public String pointGoodsList(@PathVariable String type, int pageNum, HttpServletRequest request) throws Exception {
+		// 页面显示数量
+		int pageSize = 5;
+		// 获得带分页的商品列表
+		Page<PointGoods> page = goodsService.findPointGoodsWithTypePage(type, pageNum, pageSize);
+		// 判断是否存在当前页
+		if (page.getTotalPage() < pageNum) {
+			return "error/404";
+		}
+		request.setAttribute("page", page);
+		return "pointGoodsList";
+	}
+
 	// 查看积分商品管理列表
+	@PreAuthorize("hasAnyRole('ADMIN','GOODSWORK')")
 	@RequestMapping("/pointGoodsManage")
 	public String pointGoodsManage(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量
@@ -71,25 +92,12 @@ public class PointController {
 		return "pointGoodsManage";
 	}
 
-	// 查看某类的积分商品列表
-	@RequestMapping("/pointGoodsList/{type}")
-	public String pointGoodsList(@PathVariable String type, int pageNum, HttpServletRequest request) throws Exception {
-		// 页面显示数量
-		int pageSize = 5;
-		// 获得带分页的商品列表
-		Page<PointGoods> page = goodsService.findPointGoodsWithTypePage(type, pageNum, pageSize);
-		// 判断是否存在当前页
-		if (page.getTotalPage() < pageNum) {
-			return "error/404";
-		}
-		request.setAttribute("page", page);
-		return "pointGoodsList";
-	}
-
 	// 添加商品
+	@PreAuthorize("hasAnyRole('ADMIN','GOODSWORK')")
 	@RequestMapping("/createPointGoods")
-	public @ResponseBody ResultMessage createPointGoods(@RequestBody @Validated CreatePointGoodsForm createPointGoodsForm,
-			BindingResult bindingResult) throws Exception {
+	public @ResponseBody ResultMessage createPointGoods(
+			@RequestBody @Validated CreatePointGoodsForm createPointGoodsForm, BindingResult bindingResult)
+			throws Exception {
 		ResultMessage resultMessage = new ResultMessage();
 		// 参数错误放回400
 		if (bindingResult.hasErrors()) {
@@ -111,6 +119,7 @@ public class PointController {
 	}
 
 	// 删除积分商品
+	@PreAuthorize("hasAnyRole('ADMIN','GOODSWORK')")
 	@RequestMapping("/deletePointGoods")
 	public @ResponseBody ResultMessage deletePointGoods(String[] goodsName) throws Exception {
 		ResultMessage resultMessage = new ResultMessage();
@@ -126,26 +135,30 @@ public class PointController {
 		return resultMessage;
 	}
 
+	// 跳转到添加商品页面
+	@PreAuthorize("hasAnyRole('ADMIN','GOODSWORK')")
+	@RequestMapping("/toCreatePointGoods")
+	public String toCreatePointGoods() throws Exception {
+		return "createPointGoods";
+	}
+
 	// 积分记录
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/pointRecord")
 	public String pointRecord(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量
 		int pageSize = 17;
 
 		// 获得带分页的商品列表
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		Page<PointRecordList> page = pointRecordService.findPointRecordByUser_id(pageNum, pageSize,
-				userService.findUser_idByUserName(username));
+		Integer user_id = userService.findAuthenticatedUserId();
+		if (user_id != null) {
+			Page<PointRecordList> page = pointRecordService.findPointRecordByUser_id(pageNum, pageSize, user_id);
+			request.setAttribute("page", page);
+			return "pointRecord";
+		} else {
+			return "error/failure";
+		}
+		
 
-		request.setAttribute("page", page);
-
-		return "pointRecord";
-	}
-
-	// 跳转到添加商品页面
-	@RequestMapping("/toCreatePointGoods")
-	public String toCreatePointGoods() throws Exception {
-		return "createPointGoods";
 	}
 }

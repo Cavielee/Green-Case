@@ -16,13 +16,22 @@ public interface UserService {
 	public User findUserByUserName(String username) throws Exception;
 
 	// 根据用户名查询用户id
-	public int findUser_idByUserName(String username) throws Exception;
+	public Integer findUser_idByUserName(String username) throws Exception;
 
 	// 根据用户id查询用户积分
-	public int findPointByUser_id(int user_id) throws Exception;
-	
+	public Integer findPointByUser_id(int user_id) throws Exception;
+
 	// 获取认证用户的id
-	public int findAuthenticatedUserId() throws Exception;
+	public Integer findAuthenticatedUserId() throws Exception;
+
+	// 获取认证用户的用户名
+	public String findAuthenticatedUserName() throws Exception;
+
+	// 获得带分页的订单工作人员列表
+	public Page<String> findOrderWorks(int pageNum, int pageSize) throws Exception;
+
+	// 获得带分页的商品工作人员列表
+	public Page<String> findGoodsWorks(int pageNum, int pageSize) throws Exception;
 
 	// 登录校验
 	public LoginResultMessage checkLogin(LoginUserForm loginUserForm) throws Exception;
@@ -48,9 +57,4 @@ public interface UserService {
 	// 删除工作人员用户
 	public int deleteWorks(String[] worksName) throws Exception;
 
-	// 获得带分页的订单工作人员列表
-	public Page<String> findOrderWorks(int pageNum, int pageSize) throws Exception;
-
-	// 获得带分页的商品工作人员列表
-	public Page<String> findGoodsWorks(int pageNum, int pageSize) throws Exception;
 }

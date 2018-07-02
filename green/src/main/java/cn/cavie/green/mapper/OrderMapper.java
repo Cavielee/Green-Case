@@ -3,9 +3,10 @@ package cn.cavie.green.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.cavie.green.po.ReuseOrder;
 import cn.cavie.green.vo.SaveOrderForm;
-import cn.cavie.green.vo.User_Order;
 
 public interface OrderMapper {
 	// 添加回收订单
@@ -13,7 +14,7 @@ public interface OrderMapper {
 
 	// 根据order_id查询订单信息
 	public ReuseOrder findOrderById(int order_id) throws Exception;
-	
+
 	// 根据order_id查询user_id
 	public int findUser_idByOrder_id(int order_id) throws Exception;
 
@@ -27,7 +28,8 @@ public interface OrderMapper {
 	public List<HashMap<String, String>> findUntreatedOrdersWithPage(HashMap<String, Integer> pageMap) throws Exception;
 
 	// 查询未处理订单详情
-	public HashMap<String, Object> findOrderDetail(User_Order user_order) throws Exception;
+	public HashMap<String, Object> findOrderDetail(@Param("order_id") int order_id, @Param("username") String username)
+			throws Exception;
 
 	// 确认订单已回收
 	public int updateOrderStatus(int order_id) throws Exception;

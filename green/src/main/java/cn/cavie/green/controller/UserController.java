@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class UserController {
 	private UserService userService;
 
 	// 获取用户信息
+	@PreAuthorize("permitAll()")
 	@RequestMapping("/user")
 	public String user(HttpServletRequest request, HttpSession session) throws Exception {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -47,31 +49,71 @@ public class UserController {
 	}
 
 	// 获取用户详细资料
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/userInfo")
 	public String userInfo(HttpServletRequest request, HttpSession session) throws Exception {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
+		String username = userService.findAuthenticatedUserName();
 
 		// 获取用户详细资料
 		UserInfo userInfo = userService.getUserInfoByUserName(username);
 		request.setAttribute("userInfo", userInfo);
 
 		return "userInfo";
+
 	}
 
 	// 编辑用户资料
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/editInfo")
 	public String editInfo(HttpServletRequest request, HttpSession session) throws Exception {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
+		String username = userService.findAuthenticatedUserName();
 
 		// 获取用户详细资料
 		UserInfo userInfo = userService.getUserInfoByUserName(username);
 		request.setAttribute("userInfo", userInfo);
 		return "editInfo";
+
+	}
+
+	// 更新用户资料
+	@PreAuthorize("hasRole('USER')")
+	@RequestMapping("/updateUserInfo")
+	public @ResponseBody ResultMessage updateUserInfo(@RequestBody @Validated EditInfoForm editInfoForm,
+			BindingResult bindingResult) throws Exception {
+
+		ResultMessage result = new ResultMessage();
+		// 参数错误放回400
+		if (bindingResult.hasErrors()) {
+			result.setUrl("error/400");
+			return result;
+		}
+		String username = userService.findAuthenticatedUserName();
+		// 用户名查重
+		if (!username.equals(editInfoForm.getUsername())) {
+			if (userService.findUserByUserName(editInfoForm.getUsername()) != null) {
+				result.setMsg("用户名已存在");
+				return result;
+			}
+		}
+
+		editInfoForm.setUser_id(userService.findUser_idByUserName(username));
+
+		// 更新用户信息
+		if (userService.updateUserInfo(editInfoForm) == 0) {
+			result.setUrl("error/failure");
+			return result;
+		}
+		result.setUrl("userInfo");
+		// 如果修改用户名则重新认证
+		if (!username.equals(editInfoForm.getUsername())) {
+			result.setMsg("请重新登录");
+			result.setUrl("logout");
+		}
+		return result;
 	}
 
 	// 上传图片
+	@PreAuthorize("hasAnyRole('ADMIN','ORDERWORK','GOODSWORK','USER')")
 	@RequestMapping("/uploadImage")
 	public @ResponseBody ResultMessage uploadImage(MultipartFile img) throws Exception {
 		ResultMessage resultMessage = null;
@@ -104,44 +146,8 @@ public class UserController {
 		return resultMessage;
 	}
 
-	// 更新用户资料
-	@RequestMapping("/updateUserInfo")
-	public @ResponseBody ResultMessage updateUserInfo(@RequestBody @Validated EditInfoForm editInfoForm,
-			BindingResult bindingResult) throws Exception {
-
-		ResultMessage result = new ResultMessage();
-		// 参数错误放回400
-		if (bindingResult.hasErrors()) {
-			result.setUrl("error/400");
-			return result;
-		}
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		// 用户名查重
-		if (!username.equals(editInfoForm.getUsername())) {
-			if (userService.findUserByUserName(editInfoForm.getUsername()) != null) {
-				result.setMsg("用户名已存在");
-				return result;
-			}
-		}
-
-		editInfoForm.setUser_id(userService.findUser_idByUserName(username));
-
-		// 更新用户信息
-		if (userService.updateUserInfo(editInfoForm) == 0) {
-			result.setUrl("error/failure");
-			return result;
-		}
-		result.setUrl("userInfo");
-		// 如果修改用户名则重新认证
-		if (!username.equals(editInfoForm.getUsername())) {
-			result.setMsg("请重新登录");
-			result.setUrl("logout");
-		}
-		return result;
-	}
-
 	// 显示订单工作人员
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping("/orderWorks")
 	public String orderWorks(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量
@@ -157,6 +163,7 @@ public class UserController {
 	}
 
 	// 显示商品工作人员
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping("/goodsWorks")
 	public String goodsWorks(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量
@@ -172,6 +179,7 @@ public class UserController {
 	}
 
 	// 删除工作人员
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping("/deleteWorks")
 	public @ResponseBody ResultMessage deleteWorks(String[] worksName) throws Exception {
 		ResultMessage resultMessage = new ResultMessage();
@@ -188,12 +196,14 @@ public class UserController {
 	}
 
 	// 跳转到创建工作人员用户页面
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping("/toCreateWork")
 	public String toCreateWork() throws Exception {
 		return "createWork";
 	}
 
 	// 创建工作人员用户
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping("/createWork")
 	public @ResponseBody ResultMessage createWork(@RequestBody @Validated CreateWorkForm createWorkForm,
 			BindingResult bindingResult, MultipartFile user_avatar) throws Exception {
@@ -203,8 +213,7 @@ public class UserController {
 			resultMessage.setUrl("error/400");
 			return resultMessage;
 		}
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
+		String username = userService.findAuthenticatedUserName();
 		// 用户名查重
 		if (!username.equals(createWorkForm.getUsername())) {
 			if (userService.findUserByUserName(createWorkForm.getUsername()) != null) {

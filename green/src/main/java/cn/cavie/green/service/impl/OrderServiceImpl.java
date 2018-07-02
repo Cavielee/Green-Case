@@ -20,7 +20,6 @@ import cn.cavie.green.service.PointRecordService;
 import cn.cavie.green.service.UserService;
 import cn.cavie.green.vo.OrderList;
 import cn.cavie.green.vo.SaveOrderForm;
-import cn.cavie.green.vo.User_Order;
 import cn.cavie.green.vo.result.OrderResultMessage;
 import cn.cavie.green.vo.result.OrderSuccessResult;
 
@@ -129,11 +128,10 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public HashMap<String, Object> findOrderDetail(User_Order user_order) throws Exception {
-		HashMap<String, Object> orderDetail = new HashMap<String, Object>();
-		if (orderMapper.findOrderDetail(user_order) != null) {
-			orderDetail = orderMapper.findOrderDetail(user_order);
-		}
+	public HashMap<String, Object> findOrderDetail(int order_id, String username) throws Exception {
+
+		HashMap<String, Object> orderDetail = orderMapper.findOrderDetail(order_id, username);
+
 		return orderDetail;
 	}
 

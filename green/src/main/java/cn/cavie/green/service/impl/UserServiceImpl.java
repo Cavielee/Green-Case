@@ -44,6 +44,72 @@ public class UserServiceImpl implements UserService {
 		return userMapper.findUserByUserName(username);
 	}
 
+	// 获得带分页的商品工作人员列表
+	@Override
+	public Page<String> findGoodsWorks(int pageNum, int pageSize) throws Exception {
+
+		// 查询用户订单总数
+		int totalRecord = userMapper.countGoodsWorks();
+
+		// 创建分页
+		Page<String> page = new Page<String>(pageNum, pageSize, totalRecord);
+
+		HashMap<String, Integer> pageMap = new HashMap<String, Integer>();
+		pageMap.put("pageSize", pageSize);
+		pageMap.put("startIndex", page.getStartIndex());
+
+		List<String> list = userMapper.findGoodsWorks(pageMap);
+		page.setList(list);
+
+		return page;
+	}
+
+	// 获得带分页的订单工作人员列表
+	@Override
+	public Page<String> findOrderWorks(int pageNum, int pageSize) throws Exception {
+
+		// 查询用户订单总数
+		int totalRecord = userMapper.countOrderWorks();
+
+		// 创建分页
+		Page<String> page = new Page<String>(pageNum, pageSize, totalRecord);
+
+		HashMap<String, Integer> pageMap = new HashMap<String, Integer>();
+		pageMap.put("pageSize", pageSize);
+		pageMap.put("startIndex", page.getStartIndex());
+
+		List<String> list = userMapper.findOrderWorks(pageMap);
+
+		page.setList(list);
+
+		return page;
+	}
+
+	// 通过用户名获取用户id
+	@Override
+	public Integer findUser_idByUserName(String username) throws Exception {
+		return userMapper.findUser_idByUserName(username);
+	}
+
+	// 获取认证用户的id
+	@Override
+	public Integer findAuthenticatedUserId() throws Exception {
+
+		return findUser_idByUserName(findAuthenticatedUserName());
+	}
+
+	// 获取认证用户的id
+	@Override
+	public String findAuthenticatedUserName() throws Exception {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return authentication.getName();
+	}
+
+	@Override
+	public Integer findPointByUser_id(int user_id) throws Exception {
+		return userMapper.findPointByUser_id(user_id);
+	}
+
 	@Override
 	// 登录校验
 	public LoginResultMessage checkLogin(LoginUserForm loginUserForm) throws Exception {
@@ -121,17 +187,6 @@ public class UserServiceImpl implements UserService {
 		return userInfo;
 	}
 
-	// 通过用户名获取用户id
-	@Override
-	public int findUser_idByUserName(String username) throws Exception {
-		return userMapper.findUser_idByUserName(username);
-	}
-
-	@Override
-	public int findPointByUser_id(int user_id) throws Exception {
-		return userMapper.findPointByUser_id(user_id);
-	}
-
 	@Override
 	public int updateUserPoint(int user_id, int point) throws Exception {
 		User user = new User();
@@ -159,52 +214,4 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
-	// 获得带分页的订单工作人员列表
-	@Override
-	public Page<String> findOrderWorks(int pageNum, int pageSize) throws Exception {
-
-		// 查询用户订单总数
-		int totalRecord = userMapper.countOrderWorks();
-
-		// 创建分页
-		Page<String> page = new Page<String>(pageNum, pageSize, totalRecord);
-
-		HashMap<String, Integer> pageMap = new HashMap<String, Integer>();
-		pageMap.put("pageSize", pageSize);
-		pageMap.put("startIndex", page.getStartIndex());
-
-		List<String> list = userMapper.findOrderWorks(pageMap);
-
-		page.setList(list);
-
-		return page;
-	}
-
-	// 获得带分页的商品工作人员列表
-	@Override
-	public Page<String> findGoodsWorks(int pageNum, int pageSize) throws Exception {
-
-		// 查询用户订单总数
-		int totalRecord = userMapper.countGoodsWorks();
-
-		// 创建分页
-		Page<String> page = new Page<String>(pageNum, pageSize, totalRecord);
-
-		HashMap<String, Integer> pageMap = new HashMap<String, Integer>();
-		pageMap.put("pageSize", pageSize);
-		pageMap.put("startIndex", page.getStartIndex());
-
-		List<String> list = userMapper.findGoodsWorks(pageMap);
-		page.setList(list);
-
-		return page;
-	}
-
-	// 获取认证用户的id
-	@Override
-	public int findAuthenticatedUserId() throws Exception {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		return this.findUser_idByUserName(username);
-	}
 }

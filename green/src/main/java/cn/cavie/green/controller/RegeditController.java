@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -24,12 +25,15 @@ public class RegeditController {
 	@Autowired
 	private UserService userService;
 
+	// 跳转到注册页面
+	@PreAuthorize("anonymous()")
 	@RequestMapping("/regedit")
 	public String toRegedit() throws Exception {
 		return "regedit";
 	}
 
 	// 生成验证码
+	@PreAuthorize("anonymous()")
 	@RequestMapping("/createValidateCode")
 	public void createValidateCode(HttpSession session, HttpServletResponse response) throws Exception {
 		// 设置响应的类型格式为图片格式
@@ -48,8 +52,9 @@ public class RegeditController {
 	}
 
 	// 注册用户
+	@PreAuthorize("anonymous()")
 	@RequestMapping("/regeditUser")
-	public @ResponseBody ResultMessage regedit(HttpSession session,
+	public @ResponseBody ResultMessage regeditUser(HttpSession session,
 			@RequestBody @Validated RegeditUserForm regeditUserForm, BindingResult bindingResult) throws Exception {
 
 		ResultMessage result = new ResultMessage();

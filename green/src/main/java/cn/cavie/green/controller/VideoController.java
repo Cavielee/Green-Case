@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class VideoController {
 	private VideoService videoService;
 
 	// 观看视频
+	@PreAuthorize("permitAll()")
 	@RequestMapping("/video/{video_id}")
 	public String video(@PathVariable int video_id, HttpServletRequest request) throws Exception {
 		if (video_id == 0) {
@@ -37,6 +39,7 @@ public class VideoController {
 	}
 
 	// 视频列表
+	@PreAuthorize("permitAll()")
 	@RequestMapping("/videoList")
 	public String videoList(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量

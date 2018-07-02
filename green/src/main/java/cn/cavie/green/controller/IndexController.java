@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,6 +24,7 @@ public class IndexController {
 	private VideoService videoService;
 
 	// 跳转到首页
+	@PreAuthorize("permitAll()")
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request) throws Exception {
 		// 随机查询4条商品记录

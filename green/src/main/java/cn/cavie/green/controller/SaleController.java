@@ -3,6 +3,7 @@ package cn.cavie.green.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ public class SaleController {
 	private GoodsService goodsService;
 
 	// 显示商品列表
+	@PreAuthorize("permitAll()")
 	@RequestMapping("/sale")
 	public String toSale(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量
@@ -37,13 +39,29 @@ public class SaleController {
 		return "sale";
 	}
 
+	// 查看商品详细信息
+	@PreAuthorize("permitAll()")
+	@RequestMapping("/goodsDetail/{goods_id}")
+	public String goodsDetail(@PathVariable int goods_id, HttpServletRequest request) throws Exception {
+		if (goods_id == 0) {
+			return "error/400";
+		}
+		// 通过id查询商品详细信息
+		Goods goods = goodsService.findGoodsByGoods_id(goods_id);
+
+		request.setAttribute("goods", goods);
+		return "goodsDetail";
+	}
+
 	// 跳转到添加商品页面
+	@PreAuthorize("hasAnyRole('ADMIN','GOODSWORK')")
 	@RequestMapping("/toCreateGoods")
 	public String toCreateGoods() throws Exception {
 		return "createGoods";
 	}
 
 	// 查看商品管理列表
+	@PreAuthorize("hasAnyRole('ADMIN','GOODSWORK')")
 	@RequestMapping("/goodsManage")
 	public String goodsManage(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量
@@ -59,20 +77,8 @@ public class SaleController {
 		return "goodsManage";
 	}
 
-	// 查看商品详细信息
-	@RequestMapping("/goodsDetail/{goods_id}")
-	public String goodsDetail(@PathVariable int goods_id, HttpServletRequest request) throws Exception {
-		if (goods_id == 0) {
-			return "error/400";
-		}
-		// 通过id查询商品详细信息
-		Goods goods = goodsService.findGoodsByGoods_id(goods_id);
-
-		request.setAttribute("goods", goods);
-		return "goodsDetail";
-	}
-
 	// 添加商品
+	@PreAuthorize("hasAnyRole('ADMIN','GOODSWORK')")
 	@RequestMapping("/createGoods")
 	public @ResponseBody ResultMessage createGoods(@RequestBody @Validated CreateGoodsForm createGoodsForm,
 			BindingResult bindingResult) throws Exception {
@@ -97,6 +103,7 @@ public class SaleController {
 	}
 
 	// 删除商品
+	@PreAuthorize("hasAnyRole('ADMIN','GOODSWORK')")
 	@RequestMapping("/deleteGoods")
 	public @ResponseBody ResultMessage deleteGoods(String[] goodsName) throws Exception {
 		ResultMessage resultMessage = new ResultMessage();

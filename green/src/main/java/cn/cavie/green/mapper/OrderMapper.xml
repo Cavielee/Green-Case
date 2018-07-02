@@ -58,16 +58,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	<!-- 查询订单详情 -->
-	<select id="findOrderDetail" parameterType="User_Order"
-		resultMap="OrderDetail">
+	<select id="findOrderDetail" resultMap="OrderDetail">
 		SELECT
 		reuseOrder.SRV_TIME_FROM,reuseOrder.SRV_TIME_END,reuseOrder.order_id,reuseOrder.status,
 		user.username,user.realname,user.phone,user.school,user.floor,user.dormitory
 		FROM
 		reuseOrder NATURAL JOIN user
 		<where>
-			reuseOrder.order_id = #{order_id } and user.username =
-			#{username }
+			reuseOrder.order_id = #{order_id,jdbcType=INTEGER } and
+			user.username =
+			#{username,jdbcType=VARCHAR }
 		</where>
 	</select>
 

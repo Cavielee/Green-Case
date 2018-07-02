@@ -7,13 +7,13 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class User_Order {
-	// 用户名
-	@NotEmpty(message = "用户名不能为空")
-	@Length(min = 1, max = 16, message = "长度要在1-16个字符之间")
-	@Pattern(regexp = "^[\\w!@#$^*\u4E00-\u9FA5]{1,16}$", message = "含有非法字符")
+	// 鐢ㄦ埛鍚�
+	@NotEmpty(message = "鐢ㄦ埛鍚嶄笉鑳戒负绌�")
+	@Length(min = 1, max = 16, message = "闀垮害瑕佸湪1-16涓瓧绗︿箣闂�")
+	@Pattern(regexp = "^[\\w!@#$^*\u4E00-\u9FA5]{1,16}$", message = "鍚湁闈炴硶瀛楃")
 	private String username;
 
-	// 订单id
+	// 璁㈠崟id
 	@NotNull
 	private int order_id;
 

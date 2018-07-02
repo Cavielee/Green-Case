@@ -6,8 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -34,14 +33,16 @@ public class OrderController {
 	private UserService userService;
 
 	// 跳转到订单页面
+	@PreAuthorize("anonymous()")
 	@RequestMapping("/order")
-	private String toOrder() throws Exception {
+	public String toOrder() throws Exception {
 		return "order";
 	}
 
 	// 保存订单
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/saveOrder")
-	private @ResponseBody OrderResultMessage saveOrder(@RequestBody @Validated SaveOrderForm savaOrderForm,
+	public @ResponseBody OrderResultMessage saveOrder(@RequestBody @Validated SaveOrderForm savaOrderForm,
 			BindingResult bindingResult, HttpServletRequest request, HttpSession session) throws Exception {
 		OrderResultMessage result = null;
 
@@ -53,8 +54,11 @@ public class OrderController {
 		}
 
 		// 获取认证用户的id
-		savaOrderForm.setUser_id(userService.findAuthenticatedUserId());
-		
+		Integer user_id = userService.findAuthenticatedUserId();
+
+		// 设置认证用户的id
+		savaOrderForm.setUser_id(user_id);
+
 		// 订单查重
 		if (orderService.existeUserOrder(savaOrderForm) != null) {
 			result = new OrderResultMessage();
@@ -67,30 +71,33 @@ public class OrderController {
 		session.setAttribute("order_id", result.getOrder_id());
 
 		return result;
+
 	}
 
 	// 跳转到成功下单页面
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/successOrder")
-	private String successOrder(HttpServletRequest request, HttpSession session) throws Exception {
+	public String successOrder(HttpServletRequest request, HttpSession session) throws Exception {
 		// 获取order_id
-		if (session.getAttribute("order_id") == null)
+		if (session.getAttribute("order_id") == null) {
 			return "error/failure";
-		int order_id = (int) session.getAttribute("order_id");
+		} else {
+			int order_id = (int) session.getAttribute("order_id");
+			// 获取刚下单的信息
+			OrderSuccessResult order = orderService.findOrderById(order_id);
+			request.setAttribute("order", order);
 
-		// 获取刚下单的信息
-		OrderSuccessResult order = orderService.findOrderById(order_id);
-		request.setAttribute("order", order);
-		
-		return "successOrder";
+			return "successOrder";
+		}
 	}
 
 	// 取消订单
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/cancelOrder")
 	public String cancelOrder(int order_id, HttpSession session) throws Exception {
 
-		// 获取user_id
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		int user_id = userService.findUser_idByUserName(authentication.getName());
+		// 获取认证用户的id
+		Integer user_id = userService.findAuthenticatedUserId();
 
 		// 删除订单
 		int result = orderService.deleteOrderById(user_id, order_id);
@@ -102,49 +109,51 @@ public class OrderController {
 		// 删除成功
 		session.removeAttribute("order_id");
 		return "redirect:order";
+
 	}
 
 	// 订单列表
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/orderList")
-	private String orderList(int pageNum, HttpServletRequest request, HttpSession session) throws Exception {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		if (username != null) {
-			// 页面显示数量
-			int pageSize = 5;
-			// 获得带分页的订单列表
-			Page<OrderList> page = orderService.findUserOrdersWithPage(pageNum, pageSize,
-					userService.findUser_idByUserName(username));
-			// 判断是否存在当前页
-			if (page.getTotalPage() < pageNum) {
-				return "error/404";
-			}
-			request.setAttribute("page", page);
+	public String orderList(int pageNum, HttpServletRequest request, HttpSession session) throws Exception {
+		// 获取user_id
+		Integer user_id = userService.findAuthenticatedUserId();
+
+		// 页面显示数量
+		int pageSize = 5;
+		// 获得带分页的订单列表
+		Page<OrderList> page = orderService.findUserOrdersWithPage(pageNum, pageSize, user_id);
+		// 判断是否存在当前页
+		if (page.getTotalPage() < pageNum) {
+			return "error/404";
 		}
+		request.setAttribute("page", page);
 
 		return "orderList";
+
 	}
 
 	// 未处理订单详情
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/userOrderDetail")
 	public String userOrderDetail(int order_id, HttpServletRequest request) throws Exception {
 		// 获取username
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User_Order user_order = new User_Order(authentication.getName(), order_id);
+		String username = userService.findAuthenticatedUserName();
 
 		// 查询订单详情
-		HashMap<String, Object> orderDetail = orderService.findOrderDetail(user_order);
-		if (orderDetail.isEmpty()) {
-			return "error/404";
+		HashMap<String, Object> orderDetail = orderService.findOrderDetail(order_id, username);
+		if (orderDetail != null) {
+			request.setAttribute("orderDetail", orderDetail);
+			return "userOrderDetail";
 		}
-		request.setAttribute("orderDetail", orderDetail);
 
-		return "userOrderDetail";
+		return "error/failure";
 	}
 
 	// 未处理订单
+	@PreAuthorize("hasAnyRole('ADMIN','ORDERWORK')")
 	@RequestMapping("/untreatedOrders")
-	public String untreatedOrder(int pageNum, HttpServletRequest request) throws Exception {
+	public String untreatedOrders(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量
 		int pageSize = 4;
 		// 获得带分页的未处理订单
@@ -158,6 +167,7 @@ public class OrderController {
 	}
 
 	// 未处理订单详情
+	@PreAuthorize("hasAnyRole('ADMIN','ORDERWORK')")
 	@RequestMapping("/untreatedOrderDetail")
 	public String untreatedOrderDetail(@Validated User_Order user_order, BindingResult bindingResult,
 			HttpServletRequest request) throws Exception {
@@ -165,16 +175,17 @@ public class OrderController {
 			return "error/400";
 		}
 		// 查询订单详情
-		HashMap<String, Object> orderDetail = orderService.findOrderDetail(user_order);
-		if (orderDetail.isEmpty()) {
-			return "error/404";
+		HashMap<String, Object> orderDetail = orderService.findOrderDetail(user_order.getOrder_id(),
+				user_order.getUsername());
+		if (orderDetail != null) {
+			request.setAttribute("orderDetail", orderDetail);
+			return "untreatedOrderDetail";
 		}
-		request.setAttribute("orderDetail", orderDetail);
-
-		return "untreatedOrderDetail";
+		return "error/failure";
 	}
 
 	// 确认订单回收
+	@PreAuthorize("hasAnyRole('ADMIN','ORDERWORK')")
 	@RequestMapping("/orderRecycle")
 	public String orderRecycle(int order_id) throws Exception {
 		if (order_id == 0) {
