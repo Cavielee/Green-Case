@@ -1,6 +1,6 @@
 package cn.cavie.green.exception;
 
-public class CustomException extends Exception {
+public class CustomException extends RuntimeException {
 
 	private static final long serialVersionUID = 2250870931652736439L;
 

@@ -54,37 +54,10 @@ public class GoodsServiceImpl implements GoodsService {
 		return list;
 	}
 
-	// 商品名查重
-	@Override
-	public boolean duplicateCheckingGoods(String name) throws Exception {
-		if (goodsMapper.duplicateCheckingGoods(name) == null) {
-			// 商品名不重复
-			return false;
-		} else {
-			// 商品名重复
-			return true;
-		}
-	}
-
 	// 通过id查询商品详细信息
 	@Override
 	public Goods findGoodsByGoods_id(int goods_id) throws Exception {
 		return goodsMapper.findGoodsByGoods_id(goods_id);
-	}
-
-	// 添加商品
-	@Override
-	public int insertGoods(CreateGoodsForm createGoodsForm) throws Exception {
-		return goodsMapper.insertGoods(createGoodsForm);
-	}
-
-	// 删除商品
-	@Override
-	public int deleteGoods(String[] goodsName) throws Exception {
-		int result = 0;
-		// 删除工作人员用户权限
-		result = goodsMapper.deleteGoods(goodsName);
-		return result;
 	}
 
 	// 随机查询所有类型N条积分商品记录
@@ -127,7 +100,7 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public Page<PointGoods> findPointGoodsWithPage(int pageNum, int pageSize) throws Exception {
 
-		// 查询商品总数
+		// 查询积分商品总数
 		int totalRecord = pointGoodsMapper.countPointGoods();
 
 		// 创建分页
@@ -140,22 +113,19 @@ public class GoodsServiceImpl implements GoodsService {
 		return page;
 	}
 
-	// 添加商品
-	@Override
-	public int insertPointGoods(CreatePointGoodsForm createPointGoodsForm) throws Exception {
-		return pointGoodsMapper.insertPointGoods(createPointGoodsForm);
-	}
-
-	// 删除积分商品
-	@Override
-	public int deletePointGoods(String[] goodsName) throws Exception {
-		int result = 0;
-		// 删除工作人员用户权限
-		result = pointGoodsMapper.deletePointGoods(goodsName);
-		return result;
-	}
-
 	// 商品名查重
+	@Override
+	public boolean duplicateCheckingGoods(String name) throws Exception {
+		if (goodsMapper.duplicateCheckingGoods(name) == null) {
+			// 商品名不重复
+			return false;
+		} else {
+			// 商品名重复
+			return true;
+		}
+	}
+
+	// 积分商品名查重
 	@Override
 	public boolean duplicateCheckingPointGoods(String name) throws Exception {
 		if (pointGoodsMapper.duplicateCheckingPointGoods(name) == null) {
@@ -166,4 +136,33 @@ public class GoodsServiceImpl implements GoodsService {
 			return true;
 		}
 	}
+
+	// 添加商品
+	@Override
+	public int insertGoods(CreateGoodsForm createGoodsForm) throws Exception {
+		return goodsMapper.insertGoods(createGoodsForm);
+	}
+
+	// 添加积分商品
+	@Override
+	public int insertPointGoods(CreatePointGoodsForm createPointGoodsForm) throws Exception {
+		return pointGoodsMapper.insertPointGoods(createPointGoodsForm);
+	}
+
+	// 删除商品
+	@Override
+	public int deleteGoods(String[] goodsName) throws Exception {
+		// 删除商品
+		int result = goodsMapper.deleteGoods(goodsName);
+		return result;
+	}
+
+	// 删除积分商品
+	@Override
+	public int deletePointGoods(String[] goodsName) throws Exception {
+		// 删除积分商品
+		int result = pointGoodsMapper.deletePointGoods(goodsName);
+		return result;
+	}
+
 }

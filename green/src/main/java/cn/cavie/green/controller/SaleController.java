@@ -24,7 +24,7 @@ public class SaleController {
 	private GoodsService goodsService;
 
 	// 显示商品列表
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("permitAll")
 	@RequestMapping("/sale")
 	public String toSale(int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量
@@ -40,7 +40,7 @@ public class SaleController {
 	}
 
 	// 查看商品详细信息
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("permitAll")
 	@RequestMapping("/goodsDetail/{goods_id}")
 	public String goodsDetail(@PathVariable int goods_id, HttpServletRequest request) throws Exception {
 		if (goods_id == 0) {

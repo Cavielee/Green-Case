@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -24,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder(){
 	    return new Md5PasswordEncoder();
 	}
+	
 	
 	/**
 	 *  相当于xml的authentication-manager
@@ -38,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.usersByUsernameQuery("SELECT username, password, enabled FROM user WHERE username = ?")
 				.authoritiesByUsernameQuery("SELECT username, authority FROM USER NATURAL JOIN user_authorities NATURAL JOIN authorities WHERE username = ?")
 				.rolePrefix("ROLE_");
+		
 	}
 
 	/**
@@ -73,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/user")
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
+		
 //		.and()
 //			.authorizeRequests()
 //				// 上传图片

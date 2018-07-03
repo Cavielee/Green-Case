@@ -38,7 +38,7 @@ public class PointController {
 	@Autowired
 	private UserService userService;
 
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("permitAll")
 	@RequestMapping("/point")
 	public String toPoint(HttpServletRequest request) throws Exception {
 		// 如果已登录则查询用户积分(除了匿名用户除外)
@@ -60,7 +60,7 @@ public class PointController {
 	}
 
 	// 查看某类的积分商品列表
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("permitAll")
 	@RequestMapping("/pointGoodsList/{type}")
 	public String pointGoodsList(@PathVariable String type, int pageNum, HttpServletRequest request) throws Exception {
 		// 页面显示数量

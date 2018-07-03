@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.cavie.green.bean.Page;
+import cn.cavie.green.exception.CustomException;
 import cn.cavie.green.mapper.OrderMapper;
 import cn.cavie.green.po.ReuseOrder;
 import cn.cavie.green.service.OrderService;
@@ -36,23 +37,6 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private PointRecordService pointRecordService;
 
-	// 插入order
-	@Override
-	public OrderResultMessage insertOrder(SaveOrderForm saveOrderForm) throws Exception {
-		OrderResultMessage result = new OrderResultMessage();
-		ReuseOrder reuseOrder = new ReuseOrder();
-		BeanUtils.copyProperties(saveOrderForm, reuseOrder);
-		int inserResult = orderMapper.insertOrder(reuseOrder);
-		if (inserResult == 0) {
-			result.setMsg("操作失败");
-			result.setUrl("error/failure");
-		} else {
-			result.setOrder_id(reuseOrder.getOrder_id());
-			result.setUrl("successOrder");
-		}
-		return result;
-	}
-
 	// 根据order_id查询订单信息
 	@Override
 	public OrderSuccessResult findOrderById(int order_id) throws Exception {
@@ -61,15 +45,6 @@ public class OrderServiceImpl implements OrderService {
 		result.setSRV_TIME_END(order.getSRV_TIME_END().getTime());
 		result.setOrder_id(order.getOrder_id());
 		return result;
-	}
-
-	// 根据order_id删除订单
-	@Override
-	public int deleteOrderById(int user_id, int order_id) throws Exception {
-		HashMap<String, Integer> user_order = new HashMap<String, Integer>();
-		user_order.put("user_id", user_id);
-		user_order.put("order_id", order_id);
-		return orderMapper.deleteOrderById(user_order);
 	}
 
 	// 获得带分页的订单列表
@@ -127,6 +102,7 @@ public class OrderServiceImpl implements OrderService {
 		return page;
 	}
 
+	// 查询订单详情
 	@Override
 	public HashMap<String, Object> findOrderDetail(int order_id, String username) throws Exception {
 
@@ -135,13 +111,39 @@ public class OrderServiceImpl implements OrderService {
 		return orderDetail;
 	}
 
+	// 插入订单
+	@Override
+	public OrderResultMessage insertOrder(SaveOrderForm saveOrderForm) throws Exception {
+		OrderResultMessage result = new OrderResultMessage();
+		ReuseOrder reuseOrder = new ReuseOrder();
+		BeanUtils.copyProperties(saveOrderForm, reuseOrder);
+		int inserResult = orderMapper.insertOrder(reuseOrder);
+		if (inserResult == 0) {
+			result.setMsg("操作失败");
+			result.setUrl("error/failure");
+		} else {
+			result.setOrder_id(reuseOrder.getOrder_id());
+			result.setUrl("successOrder");
+		}
+		return result;
+	}
+
+	// 根据order_id删除订单
+	@Override
+	public int deleteOrderById(int user_id, int order_id) throws Exception {
+		HashMap<String, Integer> user_order = new HashMap<String, Integer>();
+		user_order.put("user_id", user_id);
+		user_order.put("order_id", order_id);
+		return orderMapper.deleteOrderById(user_order);
+	}
+
 	// 订单回收
 	@Override
-	public int orderRecycle(int order_id) throws Exception {
+	public void orderRecycle(int order_id) throws Exception {
 		// 更新订单状态为已回收
 		int result = orderMapper.updateOrderStatus(order_id);
 		if (result == 0) {
-			return 0;
+			throw new CustomException("订单更新错误");
 		}
 		// 获取user_id
 		int user_id = orderMapper.findUser_idByOrder_id(order_id);
@@ -149,15 +151,14 @@ public class OrderServiceImpl implements OrderService {
 		// 添加积分记录
 		result = pointRecordService.createOrderPointRecord(user_id, "回收纸盒成功", 100);
 		if (result == 0) {
-			return 0;
+			throw new CustomException("积分添加错误");
 		}
 
 		// 更新用户积分
 		result = userService.updateUserPoint(user_id, 100);
 		if (result == 0) {
-			return 0;
+			throw new CustomException("积分添加错误");
 		}
-		return result;
 	}
 
 	// 订单查重

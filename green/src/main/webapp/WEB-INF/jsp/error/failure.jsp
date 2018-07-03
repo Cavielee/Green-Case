@@ -12,8 +12,8 @@
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <meta content="IE=edge" http-equiv="X-UA-compatible">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="static/css/mistake.css">
-<link rel="shortcut icon" href="static/img/favicon.ico">
+<link rel="stylesheet" type="text/css" href="css/mistake.css">
+<link rel="shortcut icon" href="img/favicon.ico">
 </head>
 <body class="error">
 
@@ -44,6 +44,6 @@
 		</section>
 	</div>
 
-	<script src="static/js/jquery-1.11.2.min.js"></script>
+	<script src="js/jquery-1.11.2.min.js"></script>
 </body>
 </html>

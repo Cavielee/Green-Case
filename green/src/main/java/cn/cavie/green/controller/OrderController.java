@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.cavie.green.bean.Page;
+import cn.cavie.green.exception.CustomException;
 import cn.cavie.green.service.OrderService;
 import cn.cavie.green.service.UserService;
 import cn.cavie.green.vo.OrderList;
@@ -33,7 +34,7 @@ public class OrderController {
 	private UserService userService;
 
 	// 跳转到订单页面
-	@PreAuthorize("anonymous()")
+	@PreAuthorize("permitAll")
 	@RequestMapping("/order")
 	public String toOrder() throws Exception {
 		return "order";
@@ -193,8 +194,9 @@ public class OrderController {
 		}
 
 		// 确认订单回收
-		int result = orderService.orderRecycle(order_id);
-		if (result == 0) {
+		try {
+			orderService.orderRecycle(order_id);
+		} catch (CustomException e) {
 			return "error/failure";
 		}
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
 	// 登录
-	@PreAuthorize("anonymous()")
+	@PreAuthorize("anonymous")
 	@RequestMapping("/login")
 	public String toLogin(HttpServletRequest request) throws Exception {
 		// 检查是否已登录

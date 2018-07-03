@@ -32,7 +32,7 @@ public class UserController {
 	private UserService userService;
 
 	// 获取用户信息
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("permitAll")
 	@RequestMapping("/user")
 	public String user(HttpServletRequest request, HttpSession session) throws Exception {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -56,8 +56,8 @@ public class UserController {
 
 		// 获取用户详细资料
 		UserInfo userInfo = userService.getUserInfoByUserName(username);
-		request.setAttribute("userInfo", userInfo);
 
+		request.setAttribute("userInfo", userInfo);
 		return "userInfo";
 
 	}

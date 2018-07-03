@@ -26,14 +26,14 @@ public class RegeditController {
 	private UserService userService;
 
 	// 跳转到注册页面
-	@PreAuthorize("anonymous()")
+	@PreAuthorize("anonymous")
 	@RequestMapping("/regedit")
 	public String toRegedit() throws Exception {
 		return "regedit";
 	}
 
 	// 生成验证码
-	@PreAuthorize("anonymous()")
+	@PreAuthorize("anonymous")
 	@RequestMapping("/createValidateCode")
 	public void createValidateCode(HttpSession session, HttpServletResponse response) throws Exception {
 		// 设置响应的类型格式为图片格式
@@ -52,7 +52,7 @@ public class RegeditController {
 	}
 
 	// 注册用户
-	@PreAuthorize("anonymous()")
+	@PreAuthorize("anonymous")
 	@RequestMapping("/regeditUser")
 	public @ResponseBody ResultMessage regeditUser(HttpSession session,
 			@RequestBody @Validated RegeditUserForm regeditUserForm, BindingResult bindingResult) throws Exception {
