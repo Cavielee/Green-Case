@@ -9,9 +9,10 @@ $.validator.setDefaults({
 			
 			var data = JSON.stringify($('form').serializeJSON());
 			$.ajax({
-				type : 'post',
+				type : 'POST',
 				url : "regeditUser",
-				contentType : 'application/json;charset=utf-8',
+				contentType: "application/json; charset=utf-8",
+	            dataType: "json",
 				data : data,
 				success : function(data) {
 					if (data.msg != null) {

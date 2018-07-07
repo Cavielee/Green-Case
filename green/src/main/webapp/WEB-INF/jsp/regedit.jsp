@@ -32,7 +32,7 @@
 			</div>
 			<div class="row clearfix form">
 				<div class="col-xs-10 col-xs-offset-1">
-					<form id="regeditForm">
+					<form id="regeditForm" method="post">
 						<div class="form_bg">
 							<i class="fa fa-user fa-2x"></i> <input type="text" id="username"
 								name="username" placeholder="请输入用户名" pattern="^[^<\/>]+$"
@@ -47,14 +47,14 @@
 						<span for="realname"></span>
 						<div class="form_bg">
 							<i class="fa fa-lock fa-2x"></i> <input type="password"
-								id="password" name="password" placeholder="请输入密码"
+								id="password" name="password" autocomplete="off" placeholder="请输入密码"
 								pattern="^[^<\/>]+$" data-toggle="tooltip"
 								data-placement="bottom" />
 						</div>
 						<span for="password"></span>
 						<div class="form_bg">
 							<i class="fa fa-lock fa-2x"></i> <input type="password" id="apwd"
-								name="apwd" placeholder="再次输入密码" pattern="^[^<\/>]+$"
+								name="apwd" autocomplete="off" placeholder="再次输入密码" pattern="^[^<\/>]+$"
 								data-toggle="tooltip" data-placement="bottom" />
 						</div>
 						<span for="apwd"></span>

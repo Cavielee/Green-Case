@@ -4,7 +4,8 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import cn.cavie.green.service.VisitsService;
@@ -22,7 +23,7 @@ public class SessionListener implements HttpSessionListener {
 		try {
 			visitsService.addVisits();
 		} catch (Exception e) {
-			Logger log = Logger.getLogger(this.getClass());
+			Logger log = LogManager.getLogger(this.getClass());
 			log.error(e.getMessage());
 		}
 	}

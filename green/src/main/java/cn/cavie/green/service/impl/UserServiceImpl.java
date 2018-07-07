@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -134,9 +134,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	// 用户注册
 	public int insertUser(User user) throws Exception {
-		// md5加密
-		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
-		user.setPassword(md5.encodePassword(user.getPassword(), null));
+		// bCrypt加密
+		BCryptPasswordEncoder bPasswordEnceder = new BCryptPasswordEncoder();
+		user.setPassword(bPasswordEnceder.encode(user.getPassword()));
 		// 添加用户
 		int result = userMapper.insertUser(user);
 		if (result != 0) {
@@ -149,9 +149,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	// 用户注册
 	public int insertWork(CreateWorkForm createWorkForm) throws Exception {
-		// md5加密
-		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
-		createWorkForm.setPassword(md5.encodePassword(createWorkForm.getPassword(), null));
+		// bCrypt加密
+		BCryptPasswordEncoder bPasswordEnceder = new BCryptPasswordEncoder();
+		createWorkForm.setPassword(bPasswordEnceder.encode(createWorkForm.getPassword()));
 		// 添加工作人员用户
 		int result = userMapper.insertWork(createWorkForm);
 		if (result != 0) {

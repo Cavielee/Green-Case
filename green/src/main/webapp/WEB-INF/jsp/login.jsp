@@ -43,7 +43,7 @@
 						<span for="username"></span>
 						<div class="form_bg">
 							<i class="fa fa-lock fa-2x"></i> <input type="password"
-								id="password" name="password" placeholder="请输入密码"
+								id="password" name="password" autocomplete="off" placeholder="请输入密码"
 								pattern="^[^<\/>]+$" data-toggle="tooltip"
 								data-placement="bottom" title="请勿输入<\/>]$" />
 						</div>

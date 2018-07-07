@@ -3,7 +3,8 @@ package cn.cavie.green.exception;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,7 +26,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 
 		ModelAndView modelAndView = new ModelAndView();
 
-		Logger log = Logger.getLogger(this.getClass());
+		Logger log = LogManager.getLogger(this.getClass());
 		log.error(ex.getMessage());
 		// 将错误信息传到页面
 		// modelAndView.addObject("message", message);

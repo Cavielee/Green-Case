@@ -23,8 +23,15 @@ public class IndexController {
 	@Autowired
 	private VideoService videoService;
 
+	// 跳转到网站首页(green)
+	@PreAuthorize("permitAll")
+	@RequestMapping("/green")
+	public String toGreen() throws Exception {
+		return "green";
+	}
+
 	// 跳转到首页
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("permitAll")
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request) throws Exception {
 		// 随机查询4条商品记录
