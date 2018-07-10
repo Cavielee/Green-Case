@@ -1,3 +1,5 @@
 db.properties
 
 /logs/**
+
+application.properties
