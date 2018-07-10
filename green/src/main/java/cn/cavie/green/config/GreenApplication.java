@@ -1,9 +1,5 @@
 package cn.cavie.green.config;
 
-import javax.sql.DataSource;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
@@ -18,56 +14,12 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
-@PropertySource(value = { "classpath:db.properties",
-		"classpath:ValidationMessages.properties" }, ignoreResourceNotFound = true)
+@PropertySource(value = { "classpath:ValidationMessages.properties" }, ignoreResourceNotFound = true)
 @ComponentScan(basePackages = "cn.cavie.green")
 @ServletComponentScan(basePackages = "cn.cavie.green")
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { MultipartAutoConfiguration.class })
 public class GreenApplication extends SpringBootServletInitializer {
-
-	// 数据库驱动
-	@Value("${jdbc.driverClassName}")
-	private String driverClassName;
-
-	// 相应驱动的jdbcUrl
-	@Value("${jdbc.url}")
-	private String url;
-
-	// 数据库的用户名
-	@Value("${jdbc.username}")
-	private String username;
-
-	// 数据库的密码
-	@Value("${jdbc.password}")
-	private String password;
-
-	// 数据库的最大连接数
-	@Value("${jdbc.maxActive}")
-	private int maxActive;
-
-	// 数据库的最大空闲连接
-	@Value("${jdbc.maxIdle}")
-	private int maxIdle;
-
-	// 数据库连接池dbcp
-	@Bean(destroyMethod = "close")
-	public DataSource dataSource() {
-		BasicDataSource dataSource = new BasicDataSource();
-		// 数据库驱动
-		dataSource.setDriverClassName(driverClassName);
-		// 相应驱动的jdbcUrl
-		dataSource.setUrl(url);
-		// 数据库的用户名
-		dataSource.setUsername(username);
-		// 数据库的密码
-		dataSource.setPassword(password);
-		// 数据库的最大连接数
-		dataSource.setMaxActive(maxActive);
-		// 数据库的最大空闲连接
-		dataSource.setMaxIdle(maxIdle);
-		return dataSource;
-	}
 
 	// 显示声明CommonsMultipartResolver为mutipartResolver
 	@Bean(name = "multipartResolver")
