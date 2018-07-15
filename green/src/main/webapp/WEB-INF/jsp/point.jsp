@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/sharestyle.css">
 <link rel="stylesheet"
-	href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+	href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="css/point.css">
 <link rel="shortcut icon" href="img/favicon.ico">
 </head>

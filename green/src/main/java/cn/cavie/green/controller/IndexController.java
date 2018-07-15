@@ -25,7 +25,7 @@ public class IndexController {
 
 	// 跳转到网站首页(green)
 	@PreAuthorize("permitAll")
-	@RequestMapping("/green")
+	@RequestMapping("/")
 	public String toGreen() throws Exception {
 		return "green";
 	}
